@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"log"
 
 	"github.com/aws/aws-lambda-go/events"
@@ -39,9 +38,6 @@ func (basics TableBasics) UpdateOrder(paymentProcessedEvent PaymentProcessedEven
 
 	orderId, err := attributevalue.Marshal(paymentProcessedEvent.OrderId)
 
-	log.Printf("Updating order with ID: %s", paymentProcessedEvent.OrderId)
-	log.Printf("orderId: %s", orderId)
-
 	if err != nil {
 		log.Fatalf("Got error marshalling key: %v", err)
 		return err
@@ -71,7 +67,6 @@ func handler(ctx context.Context, sqsEvent events.SQSEvent) error {
 
 	for _, message := range sqsEvent.Records {
 		paymentProcessedEvent := PaymentProcessedEvent{}
-		fmt.Println("Processing message: " + message.Body)
 		err := json.Unmarshal([]byte(message.Body), &paymentProcessedEvent)
 		if err != nil {
 			return err

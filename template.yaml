@@ -107,7 +107,7 @@ Resources:
             TableName: !Ref OrdersTable
         - SQSPollerPolicy:
             QueueName: !GetAtt PaymentsQueue.QueueName
-            
+
   OrdersQueue:
     Type: AWS::SQS::Queue
     Properties:
@@ -145,3 +145,12 @@ Resources:
       ProvisionedThroughput:
         ReadCapacityUnits: 5
         WriteCapacityUnits: 5
+  
+Outputs:
+  CreateOrderFunction:
+    Description: "Api Gateway endpoint URL for CreateOrder function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/create-order/"
+
+  ProcessPaymentFunction:
+    Description: "Api Gateway endpoint URL for ProcessPayment function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/process-payment/"

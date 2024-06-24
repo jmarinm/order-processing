@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"log"
 
 	"github.com/aws/aws-lambda-go/events"
@@ -107,7 +106,6 @@ func (basics TableBasics) ProcessPayment(paymentRequest ProcessPaymentRequest) (
 		return payment, err
 	}
 
-	fmt.Println("Response: ", response)
 	err = attributevalue.UnmarshalMap(response.Attributes, &payment)
 	if err != nil {
 		log.Fatalf("Got error unmarshalling attributes: %v", err)
@@ -244,8 +242,6 @@ func initAwsSession() error {
 	}
 
 	queueUrl = *resp.QueueUrl
-	log.Printf("Queue URL: %s\n", queueUrl)
-
 	return err
 
 }
